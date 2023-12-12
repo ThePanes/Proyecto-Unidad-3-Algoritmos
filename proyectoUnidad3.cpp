@@ -51,6 +51,8 @@ void quickSort(vector<int>& arr, int low, int high){
 }
 
 
+
+
 double getResultFromAlg(vector<int>& arr) {
     time_t start, end;
     double time_taken;
@@ -65,8 +67,8 @@ double getResultFromAlg(vector<int>& arr) {
     time_taken = double(end - start);
     return time_taken;
 }
-int main(int argc, char* argv[]) {
-    const int amount = 1000;
+int main() {
+    const int amount = 10000;
     vector<int>arr, arrSorted,arrReverse;
     int random_value;
 
@@ -83,11 +85,57 @@ int main(int argc, char* argv[]) {
             arr.push_back(random_value);
         }
     }
+
+    cout << "Se termino de generar los datos" << endl;
+
+    /*
+    cout << "se imprimira el arreglo aleatorio antes de ser ordenado" <<endl;
+    for(int i = 0; i < amount; ++i){
+            cout << arr[i] << " ";
+    }
+
+    cout << endl;
+
+    cout << "Se imprimira el segundo arreglo ordenado antes de ser ordenado" << endl;
+    for(int i = 0; i < amount; ++i){
+            cout << arrSorted[i] << " ";
+    }
+
+    cout << endl;
+
+    cout << "Se imprimira el tercer arreglo alrevez antes de ser ordenado" << endl;
+    for(int i = 0; i < amount; ++i){
+            cout << arrReverse[i] << " ";
+    }
+    cout << endl;
+        */
     unordered_map<string, double> results;
     results["SelectionSort"] = getResultFromAlg(arr);
     vector<int> arr1,arr2;
     arr1.assign(arr.begin(), arr.end());
     arr2.assign(arr.begin(), arr.end());
+
+    /*
+    cout << "Se imprimira el arreglo aleatorio ordenado" << endl;
+    for(int i = 0; i < amount; ++i){
+            cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    cout << "Se imprimira el arreglo contado ordenado" << endl;
+    for(int i = 0; i < amount; ++i){
+            cout << arrSorted[i] << " ";
+    }
+    cout << endl;
+    cout << "Se imprimira el arreglo alrevez ordenado" << endl;
+    for(int i = 0; i < amount; ++i){
+            cout << arrReverse[i] << " ";
+    }
+    cout << endl;
+
+    */
+
+
     int id = 1;
     for (const auto& pair : results) {
         const string& key = pair.first;
