@@ -287,23 +287,61 @@ void empezarCarrera(const vector<int>& arr, const string& nombreCarrera){
 }
 
 int main() {
-    const int amount = 10000;
-    vector<int>arr, arrSorted,arrReverse;
+
+    vector<int>arrPlayers, arrSortedPlayers,arrReversePlayers;
     int random_value;
 
-    cout << "Generando set de datos: " << endl;
-    for (int i = 0; i < amount ; ++i) {
-        arrSorted.push_back(i+1);
-        arrReverse.push_back(amount-i);
+    const int amountPlayers = 100000;
+    cout << "Generando set de datos jugadores en un rango de 100.000 a 110.000: " << endl;
+    for (int i = 0; i < amountPlayers ; ++i) {
+        arrSortedPlayers.push_back(i+1);
+        arrReversePlayers.push_back(amountPlayers-i);
         if ( i == 0 ) {
-            random_value = 1 + rand() % (amount);
-            arr.push_back(random_value);
+            random_value = 1 + rand() % (amountPlayers);
+            arrPlayers.push_back(random_value);
         }
         else {
-            random_value = 1 + rand() % (amount);
-            arr.push_back(random_value);
+            random_value = 1 + rand() % (amountPlayers);
+            arrPlayers.push_back(random_value);
         }
     }
+
+    vector<int>arrObjects, arrSortedObjects,arrReverseObjects;
+    int random_value_objects;
+
+    const int amountObjects = 15000;
+    cout << "Generando set de datos trazabilidad objetos entre 1.000 y 1.500 con 15 categorias: " << endl;
+    for (int i = 0; i < amountObjects ; ++i) {
+        arrSortedObjects.push_back(i+1);
+        arrReverseObjects.push_back(amountObjects-i);
+        if ( i == 0 ) {
+            random_value_objects = 1 + rand() % (amountObjects);
+            arrObjects.push_back(random_value_objects);
+        }
+        else {
+            random_value_objects = 1 + rand() % (amountObjects);
+            arrObjects.push_back(random_value_objects);
+        }
+    }
+
+    vector<int>arrEvents, arrSortedEvents,arrReverseEvents;
+    int random_value_events;
+
+    const int amountEvents = 80000;
+    cout << "Generando set de datos Eventos de cada escenario entre 60.000 a 80.000 combinaciones: " << endl;
+    for (int i = 0; i < amountEvents ; ++i) {
+        arrSortedEvents.push_back(i+1);
+        arrReverseEvents.push_back(amountEvents-i);
+        if ( i == 0 ) {
+            random_value_events = 1 + rand() % (amountEvents);
+            arrEvents.push_back(random_value_events);
+        }
+        else {
+            random_value_events = 1 + rand() % (amountEvents);
+            arrEvents.push_back(random_value_events);
+        }
+    }
+
 
     cout << "Se termino de generar los datos" << endl;
 
@@ -311,18 +349,31 @@ int main() {
 
     do{
         cout << "Bienvenido al menu principal, a continuacion seleccione una opcion:" << endl;
-        cout << "1. Carrera Cola de Espera." << endl;
+        cout << "1. Carrera Cola de Espera Jugadores." << endl;
         cout << "2. Carrera Trazabilidad de Objetos." << endl;
-        cout << "3. Carrera Eventos Cada Escenario." << endl;
+        cout << "3. Carrera Eventos de Cada Escenario." << endl;
         cout << "4. Salir." << endl;
         cin >> opcion;
 
         switch(opcion){
             case 1:
-                empezarCarrera(arrSorted, "Cola de espera, arreglo en orden");
-                empezarCarrera(arr,"Cola de espera, arreglo random");
-                empezarCarrera(arrReverse, "Cola de espera, arreglo en reversa");
+                empezarCarrera(arrSortedPlayers, "Cola de Espera Jugadores, arreglo en orden");
+                empezarCarrera(arrPlayers,"Cola de Espera Jugadores, arreglo random");
+                empezarCarrera(arrReversePlayers, "Cola de Espera Jugadores, arreglo en reversa");
 
+                break;
+            case 2:
+                empezarCarrera(arrSortedObjects, "Cola Trazabilidad de Objetos, arreglo en orden");
+                empezarCarrera(arrObjects, "Cola Trazabilidad de Objetos, arreglo random");
+                empezarCarrera(arrReverseObjects, "Cola Trazabilidad de Objetos, arreglo en reversa");
+                break;
+            case 3:
+                empezarCarrera(arrSortedEvents, "Cola Eventos de Cada Escenario, arreglo en orden");
+                empezarCarrera(arrEvents, "Cola Eventos de Cada Escenario, arreglo random");
+                empezarCarrera(arrReverseEvents, "Cola Eventos de Cada Escenario, arreglo en reversa");
+                break;
+            default:
+                cout << "Opcion invalida, reintente." << endl;
                 break;
         }
 
