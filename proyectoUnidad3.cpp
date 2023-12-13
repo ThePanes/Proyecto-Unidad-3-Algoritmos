@@ -19,12 +19,11 @@ using std::chrono::duration_cast;
 using namespace std;
 
 void printTiempoTomado(const string& nombreAlgoritmo, double time_taken){
-    cout << "Tiempo del Algoritmo" << nombreAlgoritmo << " : " << fixed << time_taken;
+    cout << "Tiempo del Algoritmo " << nombreAlgoritmo << " : " << fixed << time_taken << "segundos" << endl;
 }
 
 
 void SelectionSort(vector<int>& arr) {
-    auto start = chrono::high_resolution_clock::now();
 
     int n = arr.size();
     for (int i = 0; i < n ; ++i) {
@@ -36,13 +35,9 @@ void SelectionSort(vector<int>& arr) {
             }
         }
     }
-    auto end = high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void quickSort(vector<int>& arr, int low, int high){
-    auto start = high_resolution_clock::now();
 
     if(low < high){
         int pivot = arr[high];
@@ -59,13 +54,9 @@ void quickSort(vector<int>& arr, int low, int high){
         quickSort(arr,low,pivotActual - 1);
         quickSort(arr,pivotActual + 1,high);
     }
-    auto end = high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void bubbleSort(vector<int>& arr){
-    auto start = high_resolution_clock::now();
     int n = arr.size();
 
     for(int i = 0; i < n - 1; ++i){
@@ -75,27 +66,22 @@ void bubbleSort(vector<int>& arr){
             }
         }
     }
-    auto end = high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void shellSort(vector<int>& arr){
-    auto start = high_resolution_clock::now();
     int n = arr.size();
 
-    for(int j = n/2; j > 0; j /= 2){
-        for(int i = j; i < n; ++i){
+    for(int z = n /2; z > 0; z/=2){
+        for(int i = z; i < n; ++i){
             int temp = arr[i];
-            int f;
-            for(f = i; f >= j && arr[f - j] > temp; f-= j ){
-                arr[f] = arr[f- j];
+            int j = i;
+            while(j >= z && arr[j - z] > temp){
+                arr[j] = arr[j - z];
+                j -= z;
             }
+            arr[j] = temp;
         }
     }
-    auto end = high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void heapSortInternalFuncion(vector<int>& arr, int n, int i){
@@ -118,7 +104,6 @@ void heapSortInternalFuncion(vector<int>& arr, int n, int i){
 }
 
 void heapSort(vector<int>& arr){
-    auto start = high_resolution_clock::now();
     int n = arr.size();
 
     for(int i = n/2 - 1; i >= 0; --i){
@@ -128,13 +113,9 @@ void heapSort(vector<int>& arr){
         swap(arr[0], arr[i]);
         heapSortInternalFuncion(arr,i,0);
     }
-    auto end = high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void insertionSort(vector<int>& arr){
-    auto start = high_resolution_clock::now();
     int n = arr.size();
     for(int i = 1; i < n; ++i){
         int key = arr[i];
@@ -145,9 +126,6 @@ void insertionSort(vector<int>& arr){
         }
         arr[j + 1] = key;
     }
-    auto end = high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void mergeSortInternalFuncion(vector<int>& arr, int low, int mid, int high){
@@ -189,16 +167,12 @@ void mergeSortInternalFuncion(vector<int>& arr, int low, int mid, int high){
 }
 
 void mergeSort(vector<int>& arr, int low, int high){
-    auto start = high_resolution_clock::now();
     if(low < high){
         int mid = low + (high - low) / 2;
         mergeSort(arr,low,mid);
         mergeSort(arr,mid + 1, high);
         mergeSortInternalFuncion(arr,low,mid,high);
     }
-    auto end = high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    printTiempoTomado("SelectionSort",duration.count());
 }
 
 double getResultFromAlg(vector<int>& arr) {
@@ -214,6 +188,104 @@ double getResultFromAlg(vector<int>& arr) {
     time_taken = double(end - start);
     return time_taken;
 }
+
+void realizarCarrera(vector<int>& arr, const string& nombreAlgoritmo){
+
+    auto start = chrono::high_resolution_clock::now();
+
+    if(nombreAlgoritmo == "SelectionSort"){
+        SelectionSort(arr);
+    }else if(nombreAlgoritmo == "quickSort"){
+        quickSort(arr, 0 , arr.size() - 1);
+    }else if(nombreAlgoritmo == "bubbleSort"){
+        bubbleSort(arr);
+    }else if(nombreAlgoritmo == "shellSort"){
+        shellSort(arr);
+    }else if(nombreAlgoritmo == "heapSort"){
+        heapSort(arr);
+    }else if(nombreAlgoritmo == "insertionSort"){
+        insertionSort(arr);
+    }else if(nombreAlgoritmo == "mergeSort"){
+        mergeSort(arr, 0 , arr.size() - 1);
+    }
+
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado(nombreAlgoritmo,duration.count());
+}
+
+void empezarCarrera(const vector<int>& arr, const string& nombreCarrera){
+    cout << "Carrera: " << nombreCarrera << endl;
+
+    vector<int> arrCopiaSelectionSort = arr;
+    vector<int> arrCopiaquickSort = arr;
+    vector<int> arrCopiabubbleSort = arr;
+    vector<int> arrCopiashellSort = arr;
+    vector<int> arrCopiaheapSort = arr;
+    vector<int> arrCopiainsertionSort = arr;
+    vector<int> arrCopiamergeSort= arr;
+
+            //utilizado para comprobar el orden.
+    /*
+    cout << "Se imprimiran los arreglos antes de ser ordenados y el algoritmo que los va a ordenar:" << endl;
+    cout << "Arreglo ordenado por los algoritmos:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    */
+
+    cout << "Se usaran los algoritmos de Ordenamiento para ver cual demora menos en ordenar este arreglo." << endl;
+
+    realizarCarrera(arrCopiaSelectionSort,"SelectionSort" );
+    realizarCarrera(arrCopiaquickSort, "quickSort");
+    realizarCarrera(arrCopiabubbleSort, "bubbleSort");
+    realizarCarrera(arrCopiashellSort, "shellSort");
+    realizarCarrera(arrCopiaheapSort, "heapSort");
+    realizarCarrera(arrCopiainsertionSort, "insertionSort");
+    realizarCarrera(arrCopiamergeSort, "mergeSort");
+
+    cout << endl;
+            // esto se utilizo para comprobar el orden.
+    /*
+    cout << "Arreglo ordenado por selectionSort:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arrCopiaSelectionSort[i] << " ";
+    }
+    cout << endl;
+    cout << "Arreglo ordenado por quickSort:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arrCopiaquickSort[i] << " ";
+    }
+    cout << endl;
+    cout << "Arreglo ordenado por bubbleSort:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arrCopiabubbleSort[i] << " ";
+    }
+    cout << endl;
+    cout << "Arreglo ordenado por shellSort:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arrCopiashellSort[i] << " ";
+    }
+    cout << endl;
+    cout << "Arreglo ordenado por heapSort:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arrCopiaheapSort[i] << " ";
+    }
+    cout << endl;
+    cout << "Arreglo ordenado por insertionSort:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arrCopiainsertionSort[i] << " ";
+    }
+    cout << endl;
+    cout << "Arreglo ordenado por mergeSort:" << endl;
+    for(int i = 0; i < arr.size(); ++i){
+        cout << arrCopiamergeSort[i] << " ";
+    }
+    cout << endl;
+    */
+}
+
 int main() {
     const int amount = 10000;
     vector<int>arr, arrSorted,arrReverse;
@@ -235,62 +307,29 @@ int main() {
 
     cout << "Se termino de generar los datos" << endl;
 
-    /*
-    cout << "se imprimira el arreglo aleatorio antes de ser ordenado" <<endl;
-    for(int i = 0; i < amount; ++i){
-            cout << arr[i] << " ";
-    }
+    int opcion;
 
-    cout << endl;
+    do{
+        cout << "Bienvenido al menu principal, a continuacion seleccione una opcion:" << endl;
+        cout << "1. Carrera Cola de Espera." << endl;
+        cout << "2. Carrera Trazabilidad de Objetos." << endl;
+        cout << "3. Carrera Eventos Cada Escenario." << endl;
+        cout << "4. Salir." << endl;
+        cin >> opcion;
 
-    cout << "Se imprimira el segundo arreglo ordenado antes de ser ordenado" << endl;
-    for(int i = 0; i < amount; ++i){
-            cout << arrSorted[i] << " ";
-    }
+        switch(opcion){
+            case 1:
+                empezarCarrera(arrSorted, "Cola de espera, arreglo en orden");
+                empezarCarrera(arr,"Cola de espera, arreglo random");
+                empezarCarrera(arrReverse, "Cola de espera, arreglo en reversa");
 
-    cout << endl;
+                break;
+        }
 
-    cout << "Se imprimira el tercer arreglo alrevez antes de ser ordenado" << endl;
-    for(int i = 0; i < amount; ++i){
-            cout << arrReverse[i] << " ";
-    }
-    cout << endl;
-        */
-    unordered_map<string, double> results;
-    results["SelectionSort"] = getResultFromAlg(arr);
-    vector<int> arr1,arr2;
-    arr1.assign(arr.begin(), arr.end());
-    arr2.assign(arr.begin(), arr.end());
-
-    /*
-    cout << "Se imprimira el arreglo aleatorio ordenado" << endl;
-    for(int i = 0; i < amount; ++i){
-            cout << arr[i] << " ";
-    }
-    cout << endl;
-
-    cout << "Se imprimira el arreglo contado ordenado" << endl;
-    for(int i = 0; i < amount; ++i){
-            cout << arrSorted[i] << " ";
-    }
-    cout << endl;
-    cout << "Se imprimira el arreglo alrevez ordenado" << endl;
-    for(int i = 0; i < amount; ++i){
-            cout << arrReverse[i] << " ";
-    }
-    cout << endl;
-
-    */
+    }while(opcion != 4);
 
 
-    int id = 1;
-    for (const auto& pair : results) {
-        const string& key = pair.first;
-        double value = pair.second;
-        cout << id << ". " << key << ", " << fixed << value << setprecision(5)
-        << endl;
-        id++;
-    }
+
     return 0;
 }
 
