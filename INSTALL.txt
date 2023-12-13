@@ -1,0 +1,11 @@
+Instrucciones para ejecutar y/o compilar el programa:
+
+1. Debe contar con el programa DEV C++ 4.9.9.2 o similar, o Codeblocks en su ultima version de ser posible.
+2. Clonar o descargar el repositorio de github en su ordenador y abrir la carpeta contenedora de los archivos.
+3. Abrir el archivo proyectoUnidad3.cpp
+4. Para poder compilar el archivo, primero debemos aumentar la memoria del compilador, ya que, se ejecutaran todos los algoritmos en los tres tipos de listas simultaneamente, por lo que si no se aumenta esta memoria, el archivo al ejecutar, no terminara todo el proceso por falta de memoria.
+5. Para aumentar el tamaño de la memoria del compilador en codeblocks, debera ir a settings, compiler, ver si el compilador selecto es GNU GCC Compiler.
+6. en compiler settings, ingresar en other compiler options e ingresar el siguiente texto:  -Wl,--stack,16777216 donde el numero 16777216 representan 16 mgbs de memoria para compilar.
+7. dirijirse a Linker settings en las pestañas, en other linker options: ingresar el mismo texto: -Wl,--stack,16777216 donde el numero 16777216 representan 16 mgbs de memoria para compilar.
+8. una vez asegurandose de que esos parametros estan ingresados, por lo menos en el compilador codeblocks, puede compilar y ejecutar el programa, ya que, no recibe parametros y tiene variables y arreglos internos, si se deseara modificar estos tamaños de arreglos, cambiar en el codigo los valores de amountPlayers,amountObjects o amountEvents.
+9. asegurandose de que lo anterior este bien, compilar y ejercutar el programa, saldra el menu de opciones a realizar.

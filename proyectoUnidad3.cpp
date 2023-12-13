@@ -22,7 +22,7 @@ void printTiempoTomado(const string& nombreAlgoritmo, double time_taken){
     cout << "Tiempo del Algoritmo " << nombreAlgoritmo << " : " << fixed << time_taken << "segundos" << endl;
 }
 
-
+                                    //implementacion de algoritmos de ordenamiento:
 void SelectionSort(vector<int>& arr) {
 
     int n = arr.size();
@@ -174,6 +174,10 @@ void mergeSort(vector<int>& arr, int low, int high){
         mergeSortInternalFuncion(arr,low,mid,high);
     }
 }
+                            //termino algoritmos de ordenamiento.
+
+                            //funcion que realizara la operacion de contar el tiempo de demora de los algoritmos, ademas de ordenar
+                            //una copia del arreglo original.
 
 double getResultFromAlg(vector<int>& arr, const string& nombreAlgoritmo) {
     auto start = chrono::high_resolution_clock::now();
@@ -198,6 +202,8 @@ double getResultFromAlg(vector<int>& arr, const string& nombreAlgoritmo) {
     printTiempoTomado(nombreAlgoritmo,duration.count());
     return duration.count();
 }
+
+                    //funcion encargada de realizar la carrera, esta almacenara el mejor tiempo del mejor algoritmo en la situacion que se encuentre.
 
 void realizarCarrera(vector<int>& arr, const string& nombreCarrera){
 
