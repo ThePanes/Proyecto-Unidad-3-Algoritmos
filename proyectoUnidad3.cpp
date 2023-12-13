@@ -120,6 +120,52 @@ void insertionSort(vector<int>& arr){
     }
 }
 
+void mergeSortInternalFuncion(vector<int>& arr, int low, int mid, int high){
+
+    int n1 = mid - low + 1;
+    int n2 = high - mid;
+    vector<int> left;
+    vector<int> right;
+
+    for(int i = 0; i < n1; ++i){
+        left.push_back(arr[low + i]);
+    }
+    for(int j = 0; j < n2; ++j){
+        right.push_back(arr[mid + 1 + j]);
+    }
+    int i = 0;
+    int j = 0;
+    int k = low;
+    while(i < n1 && j < n2){
+        if(left[i]  <= right[j]){
+            arr[k] = left[i];
+            ++i;
+        }else{
+            arr[k] = right[j];
+            ++j;
+        }
+        ++k;
+    }
+    while(i < n1){
+        arr[k] = left[i];
+        ++i;
+        ++k;
+    }
+    while(j < n2){
+        arr[k] = right[j];
+        ++j;
+        ++k;
+    }
+}
+
+void mergeSort(vector<int>& arr, int low, int high){
+    if(low < high){
+        int mid = low + (high - low) / 2;
+        mergeSort(arr,low,mid);
+        mergeSort(arr,mid + 1, high);
+        mergeSortInternalFuncion(arr,low,mid,high);
+    }
+}
 
 double getResultFromAlg(vector<int>& arr) {
     time_t start, end;
