@@ -175,124 +175,68 @@ void mergeSort(vector<int>& arr, int low, int high){
     }
 }
 
-double getResultFromAlg(vector<int>& arr) {
-    time_t start, end;
-    double time_taken;
-    time(&start);
-    ios_base::sync_with_stdio(false);
-                        //cambiar esta funcion hace el tiempo del algoritmo usado.
-    SelectionSort(arr);
-    //quickSort(arr,0,arr.size()- 1);
-
-    time(&end);
-    time_taken = double(end - start);
-    return time_taken;
-}
-
-void realizarCarrera(vector<int>& arr, const string& nombreAlgoritmo){
-
+double getResultFromAlg(vector<int>& arr, const string& nombreAlgoritmo) {
     auto start = chrono::high_resolution_clock::now();
-
+    vector<int> arrCopia = arr;
     if(nombreAlgoritmo == "SelectionSort"){
-        SelectionSort(arr);
+        SelectionSort(arrCopia);
     }else if(nombreAlgoritmo == "quickSort"){
-        quickSort(arr, 0 , arr.size() - 1);
+        quickSort(arrCopia, 0 , arrCopia.size() - 1);
     }else if(nombreAlgoritmo == "bubbleSort"){
-        bubbleSort(arr);
+        bubbleSort(arrCopia);
     }else if(nombreAlgoritmo == "shellSort"){
-        shellSort(arr);
+        shellSort(arrCopia);
     }else if(nombreAlgoritmo == "heapSort"){
-        heapSort(arr);
+        heapSort(arrCopia);
     }else if(nombreAlgoritmo == "insertionSort"){
-        insertionSort(arr);
+        insertionSort(arrCopia);
     }else if(nombreAlgoritmo == "mergeSort"){
-        mergeSort(arr, 0 , arr.size() - 1);
+        mergeSort(arrCopia, 0 , arrCopia.size() - 1);
     }
-
     auto end = high_resolution_clock::now();
     chrono::duration<double> duration = end - start;
     printTiempoTomado(nombreAlgoritmo,duration.count());
+    return duration.count();
+}
+
+void realizarCarrera(vector<int>& arr, const string& nombreCarrera){
+
+    vector<int> arrCopia = arr;
+    double better_time = numeric_limits<double>::infinity();
+    string mejorAlgoritmo = " ";
+    vector <string> algotirmos = {"SelectionSort","quickSort","bubbleSort","shellSort","heapSort","insertionSort","mergeSort"};
+
+    for(const string& nombreAlgoritmo : algotirmos){
+        double tiempoAlgoritmo = getResultFromAlg(arrCopia,nombreAlgoritmo);
+        if(tiempoAlgoritmo < better_time){
+            better_time = tiempoAlgoritmo;
+            mejorAlgoritmo = nombreAlgoritmo;
+        }
+    }
+
+    cout << "El mejor tiempo fue para: " << mejorAlgoritmo << " con un tiemo de: " << better_time << endl;
+
 }
 
 void empezarCarrera(const vector<int>& arr, const string& nombreCarrera){
     cout << "Carrera: " << nombreCarrera << endl;
 
-    vector<int> arrCopiaSelectionSort = arr;
-    vector<int> arrCopiaquickSort = arr;
-    vector<int> arrCopiabubbleSort = arr;
-    vector<int> arrCopiashellSort = arr;
-    vector<int> arrCopiaheapSort = arr;
-    vector<int> arrCopiainsertionSort = arr;
-    vector<int> arrCopiamergeSort= arr;
-
-            //utilizado para comprobar el orden.
-    /*
-    cout << "Se imprimiran los arreglos antes de ser ordenados y el algoritmo que los va a ordenar:" << endl;
-    cout << "Arreglo ordenado por los algoritmos:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-    */
-
+    vector<int> arrCopia = arr;
     cout << "Se usaran los algoritmos de Ordenamiento para ver cual demora menos en ordenar este arreglo." << endl;
 
-    realizarCarrera(arrCopiaSelectionSort,"SelectionSort" );
-    realizarCarrera(arrCopiaquickSort, "quickSort");
-    realizarCarrera(arrCopiabubbleSort, "bubbleSort");
-    realizarCarrera(arrCopiashellSort, "shellSort");
-    realizarCarrera(arrCopiaheapSort, "heapSort");
-    realizarCarrera(arrCopiainsertionSort, "insertionSort");
-    realizarCarrera(arrCopiamergeSort, "mergeSort");
+    realizarCarrera(arrCopia, "Copia de" + nombreCarrera);
 
     cout << endl;
-            // esto se utilizo para comprobar el orden.
-    /*
-    cout << "Arreglo ordenado por selectionSort:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arrCopiaSelectionSort[i] << " ";
-    }
-    cout << endl;
-    cout << "Arreglo ordenado por quickSort:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arrCopiaquickSort[i] << " ";
-    }
-    cout << endl;
-    cout << "Arreglo ordenado por bubbleSort:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arrCopiabubbleSort[i] << " ";
-    }
-    cout << endl;
-    cout << "Arreglo ordenado por shellSort:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arrCopiashellSort[i] << " ";
-    }
-    cout << endl;
-    cout << "Arreglo ordenado por heapSort:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arrCopiaheapSort[i] << " ";
-    }
-    cout << endl;
-    cout << "Arreglo ordenado por insertionSort:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arrCopiainsertionSort[i] << " ";
-    }
-    cout << endl;
-    cout << "Arreglo ordenado por mergeSort:" << endl;
-    for(int i = 0; i < arr.size(); ++i){
-        cout << arrCopiamergeSort[i] << " ";
-    }
-    cout << endl;
-    */
 }
 
 int main() {
 
+    srand(static_cast<unsigned int>(time(nullptr)));
     vector<int>arrPlayers, arrSortedPlayers,arrReversePlayers;
     int random_value;
 
     const int amountPlayers = 100000;
-    cout << "Generando set de datos jugadores en un rango de 100.000 a 110.000: " << endl;
+    //cout << "Generando set de datos jugadores en un rango de 100.000 a 110.000: " << endl;
     for (int i = 0; i < amountPlayers ; ++i) {
         arrSortedPlayers.push_back(i+1);
         arrReversePlayers.push_back(amountPlayers-i);
@@ -310,7 +254,7 @@ int main() {
     int random_value_objects;
 
     const int amountObjects = 15000;
-    cout << "Generando set de datos trazabilidad objetos entre 1.000 y 1.500 con 15 categorias: " << endl;
+    //cout << "Generando set de datos trazabilidad objetos entre 1.000 y 1.500 con 15 categorias: " << endl;
     for (int i = 0; i < amountObjects ; ++i) {
         arrSortedObjects.push_back(i+1);
         arrReverseObjects.push_back(amountObjects-i);
@@ -328,7 +272,7 @@ int main() {
     int random_value_events;
 
     const int amountEvents = 80000;
-    cout << "Generando set de datos Eventos de cada escenario entre 60.000 a 80.000 combinaciones: " << endl;
+    //cout << "Generando set de datos Eventos de cada escenario entre 60.000 a 80.000 combinaciones: " << endl;
     for (int i = 0; i < amountEvents ; ++i) {
         arrSortedEvents.push_back(i+1);
         arrReverseEvents.push_back(amountEvents-i);
