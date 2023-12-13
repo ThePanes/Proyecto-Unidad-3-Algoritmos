@@ -50,7 +50,75 @@ void quickSort(vector<int>& arr, int low, int high){
     }
 }
 
+void bubbleSort(vector<int>& arr){
+    int n = arr.size();
 
+    for(int i = 0; i < n - 1; ++i){
+        for(int j = 0; j < n - i - 1;++j){
+            if(arr[j] > arr[j + 1]){
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+void shellSort(vector<int>& arr){
+    int n = arr.size();
+
+    for(int j = n/2; j > 0; j /= 2){
+        for(int i = j; i < n; ++i){
+            int temp = arr[i];
+            int f;
+            for(f = i; f >= j && arr[f - j] > temp; f-= j ){
+                arr[f] = arr[f- j];
+            }
+        }
+    }
+}
+
+void heapSortInternalFuncion(vector<int>& arr, int n, int i){
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if(left < n && arr[left] > arr[largest]){
+        largest = left;
+    }
+
+    if(right < n && arr[right] > arr[largest]){
+        largest = right;
+    }
+
+    if(largest != i){
+        swap(arr[i], arr[largest]);
+        heapSortInternalFuncion(arr, n , largest);
+    }
+}
+
+void heapSort(vector<int>& arr){
+    int n = arr.size();
+
+    for(int i = n/2 - 1; i >= 0; --i){
+        heapSortInternalFuncion(arr,n,i);
+    }
+    for(int i = n - 1; i > 0; --i){
+        swap(arr[0], arr[i]);
+        heapSortInternalFuncion(arr,i,0);
+    }
+}
+
+void insertionSort(vector<int>& arr){
+    int n = arr.size();
+    for(int i = 1; i < n; ++i){
+        int key = arr[i];
+        int j = i - 1;
+        while(j >= 0 && arr[j] > key){
+            arr[j + 1] = arr[j];
+            --j;
+        }
+        arr[j + 1] = key;
+    }
+}
 
 
 double getResultFromAlg(vector<int>& arr) {
