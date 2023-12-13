@@ -10,7 +10,6 @@
 #include <random>
 #include <iostream>
 #include <chrono>
-
 using std::cout;
 using std::endl;
 using std::chrono::high_resolution_clock;
@@ -19,7 +18,14 @@ using std::chrono::duration_cast;
 
 using namespace std;
 
+void printTiempoTomado(const string& nombreAlgoritmo, double time_taken){
+    cout << "Tiempo del Algoritmo" << nombreAlgoritmo << " : " << fixed << time_taken;
+}
+
+
 void SelectionSort(vector<int>& arr) {
+    auto start = chrono::high_resolution_clock::now();
+
     int n = arr.size();
     for (int i = 0; i < n ; ++i) {
         for (int j = i; j < n ; ++j) {
@@ -30,9 +36,14 @@ void SelectionSort(vector<int>& arr) {
             }
         }
     }
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void quickSort(vector<int>& arr, int low, int high){
+    auto start = high_resolution_clock::now();
+
     if(low < high){
         int pivot = arr[high];
         int i = low - 1;
@@ -48,9 +59,13 @@ void quickSort(vector<int>& arr, int low, int high){
         quickSort(arr,low,pivotActual - 1);
         quickSort(arr,pivotActual + 1,high);
     }
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void bubbleSort(vector<int>& arr){
+    auto start = high_resolution_clock::now();
     int n = arr.size();
 
     for(int i = 0; i < n - 1; ++i){
@@ -60,9 +75,13 @@ void bubbleSort(vector<int>& arr){
             }
         }
     }
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void shellSort(vector<int>& arr){
+    auto start = high_resolution_clock::now();
     int n = arr.size();
 
     for(int j = n/2; j > 0; j /= 2){
@@ -74,6 +93,9 @@ void shellSort(vector<int>& arr){
             }
         }
     }
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void heapSortInternalFuncion(vector<int>& arr, int n, int i){
@@ -96,6 +118,7 @@ void heapSortInternalFuncion(vector<int>& arr, int n, int i){
 }
 
 void heapSort(vector<int>& arr){
+    auto start = high_resolution_clock::now();
     int n = arr.size();
 
     for(int i = n/2 - 1; i >= 0; --i){
@@ -105,9 +128,13 @@ void heapSort(vector<int>& arr){
         swap(arr[0], arr[i]);
         heapSortInternalFuncion(arr,i,0);
     }
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void insertionSort(vector<int>& arr){
+    auto start = high_resolution_clock::now();
     int n = arr.size();
     for(int i = 1; i < n; ++i){
         int key = arr[i];
@@ -118,6 +145,9 @@ void insertionSort(vector<int>& arr){
         }
         arr[j + 1] = key;
     }
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado("SelectionSort",duration.count());
 }
 
 void mergeSortInternalFuncion(vector<int>& arr, int low, int mid, int high){
@@ -159,12 +189,16 @@ void mergeSortInternalFuncion(vector<int>& arr, int low, int mid, int high){
 }
 
 void mergeSort(vector<int>& arr, int low, int high){
+    auto start = high_resolution_clock::now();
     if(low < high){
         int mid = low + (high - low) / 2;
         mergeSort(arr,low,mid);
         mergeSort(arr,mid + 1, high);
         mergeSortInternalFuncion(arr,low,mid,high);
     }
+    auto end = high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    printTiempoTomado("SelectionSort",duration.count());
 }
 
 double getResultFromAlg(vector<int>& arr) {
@@ -172,7 +206,6 @@ double getResultFromAlg(vector<int>& arr) {
     double time_taken;
     time(&start);
     ios_base::sync_with_stdio(false);
-
                         //cambiar esta funcion hace el tiempo del algoritmo usado.
     SelectionSort(arr);
     //quickSort(arr,0,arr.size()- 1);
